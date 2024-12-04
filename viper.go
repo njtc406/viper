@@ -177,7 +177,8 @@ type Viper struct {
 	aliases        map[string]string
 	typeByDefValue bool
 
-	onConfigChange func(fsnotify.Event)
+	onConfigChange       func(fsnotify.Event)
+	onRemoteConfigChange func()
 
 	logger *slog.Logger
 

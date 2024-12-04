@@ -155,6 +155,14 @@ func (v *Viper) providerPathExists(p *defaultRemoteProvider) bool {
 	return false
 }
 
+func OnRemoteConfigChange(f func()) {
+	v.onRemoteConfigChange = f
+}
+
+func (v *Viper) OnRemoteConfigChange(f func()) {
+	v.onRemoteConfigChange = f
+}
+
 // ReadRemoteConfig attempts to get configuration from a remote source
 // and read it in the remote configuration registry.
 func ReadRemoteConfig() error { return v.ReadRemoteConfig() }
@@ -220,6 +228,10 @@ func (v *Viper) watchKeyValueConfigOnChannel() error {
 				b := <-rc
 				reader := bytes.NewReader(b.Value)
 				v.unmarshalReader(reader, v.kvstore)
+
+				if v.onRemoteConfigChange != nil {
+					v.onRemoteConfigChange()
+				}
 			}
 		}(respc)
 		return nil
