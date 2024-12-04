@@ -2,8 +2,6 @@ module github.com/spf13/viper/remote
 
 go 1.21.0
 
-replace github.com/spf13/viper => ../
-
 require (
 	github.com/sagikazarmark/crypt v0.26.0
 	github.com/spf13/viper v1.20.0-alpha.6
